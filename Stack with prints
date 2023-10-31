@@ -9,36 +9,36 @@
 
 struct stack
 {
-	int* array;
+	char* array;
 	int capacity = CAPACITY;
 	int size = 0;
-	int size_type;
-}; 
+	size_t size_type;
+};
 
-void stack_creator (struct stack*, int capacity, int size_type);
+void stack_creator(struct stack* st, int capacity, size_t size_type);
 int stack_pop(struct stack* pop);
-int stack_push(struct stack* st, int elem);
+int stack_push(struct stack* st, char elem);
 void stack_destructor(struct stack* st);
-int get_elem_in_stack(struct stack st);
 
 int main()
 {
 	struct stack st = {};
-	int capacity = 0, elem = 0;
+	int capacity = 0;
+	char elem = 0;
 
 	scanf("%d", &capacity);
-	stack_creator(&st, capacity, sizeof(int));
+	stack_creator(&st, capacity, sizeof(char));
 
 	for (int i = 0; i < capacity; i++)
 	{
-		scanf("%d", &elem);
+		scanf("\n%c", &elem);
 		stack_push(&st, elem);
 	}
 
 	for (int i = 0; i < capacity; i++)
 	{
 		elem = stack_pop(&st);
-		printf("%d ", elem);
+		printf("%c ", elem);
 	}
 	printf("\n");
 
@@ -46,7 +46,7 @@ int main()
 	return 0;
 }
 
-void stack_creator (struct stack* st, int capacity, int size_type)
+void stack_creator(struct stack* st, int capacity, size_t size_type)
 {
 	if (st == NULL)
 	{
@@ -58,20 +58,21 @@ void stack_creator (struct stack* st, int capacity, int size_type)
 		printf("in stack_creator: value of capacity = %d, to big\n", capacity);
 		return;
 	}
-	st->size_type = size_type;
 
-	(*st).array = (int*) calloc (capacity, size_type);
+	(*st).array = (char*)calloc(capacity, size_type);
 
-	st->capacity = capacity;
-	printf("st->capacity = %d\n", st->capacity);
 	if ((*st).array == NULL)
 	{
 		printf("Error in geting memory\n");
 		assert(0);
 	}
+
+	st->size_type = size_type;
+	st->capacity = capacity;
+	printf("st->capacity = %d\n", st->capacity);
 }
 
-int stack_push(struct stack* st, int elem)
+int stack_push(struct stack* st, char elem)
 {
 	if (st == NULL)
 	{
@@ -87,9 +88,6 @@ int stack_push(struct stack* st, int elem)
 	printf("Stack values before push st->size = %d\nst->capacity = %d\n", st->size, st->capacity);
 
 	st->array[st->size] = elem;
-
-	printf("Stack_puch get %d, stack have %d al last element\n", elem, st->array[st->size]);
-
 	st->size++;
 
 	printf("Stack values before push st->size = %d\nst->capacity = %d\n", st->size, st->capacity);
