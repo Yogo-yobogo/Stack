@@ -1,0 +1,91 @@
+#pragma warning(disable : 4996)
+
+#include <stdio.h>
+#include <assert.h>
+#include <math.h>
+#include <stdlib.h>
+
+#define CAPACITY 1000
+
+struct stack
+{
+	int* array;
+	int capacity = CAPACITY;
+	int size = 0;
+	int size_type;
+};
+
+void stack_creator(struct stack*, int capacity, int size_type);
+int stack_pop(struct stack* pop);
+int stack_push(struct stack* st, int elem);
+void stack_destructor(struct stack* st);
+
+int main()
+{
+	
+	return 0;
+}
+
+void stack_creator(struct stack* st, int capacity, int size_type)
+{
+	if (st == NULL)
+	{
+		printf("in stack_creator: struct stack* st have value NULL\n");
+		assert(0);
+	}
+	if (capacity > CAPACITY)
+	{
+		printf("in stack_creator: value of capacity = %d, to big\n", capacity);
+		return;
+	}
+	st->size_type = size_type;
+
+	(*st).array = (int*)calloc(capacity, size_type);
+
+	st->capacity = capacity;
+	if ((*st).array == NULL)
+	{
+		printf("Error in geting memory\n");
+		assert(0);
+	}
+}
+
+int stack_push(struct stack* st, int elem)
+{
+	if (st == NULL)
+	{
+		printf("in stack_push: (struct stack* st) have value NULL\n");
+		assert(0);
+	}
+	if (st->size == st->capacity)
+	{
+		printf("Stack oveflow\n");
+		return elem;
+	}
+
+	st->array[st->size] = elem;
+	st->size++;
+	return elem;
+
+}
+
+int stack_pop(struct stack* st)
+{
+	if (st == NULL)
+	{
+		printf("in stack_pop: (struct stack* st) have value NULL\n");
+		assert(0);
+	}
+	st->size--;
+	return st->array[st->size];
+}
+
+void stack_destructor(struct stack* st)
+{
+	if (st == NULL)
+	{
+		printf("In stack_destructor: (struct stack* st) have value NULL\n");
+		assert(0);
+	}
+	free(st->array);
+}
